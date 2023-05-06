@@ -13,3 +13,5 @@ scipy
 rembg
 pillow
 trimesh
+flask
+flask_cors
