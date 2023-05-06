@@ -1,0 +1,15 @@
+imageio
+tensorboard
+pyyaml
+python==3.10
+cython
+matplotlib
+pandas
+numpy
+tqdm
+torchvision
+torchaudio
+pytorch
+scipy
+rembg
+pillow
