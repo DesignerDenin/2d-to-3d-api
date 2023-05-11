@@ -1,8 +1,8 @@
 import torch
-from im2mesh.utils.libkdtree import KDTree
 import numpy as np
 import logging
 from copy import deepcopy
+from sklearn.neighbors import KDTree
 
 
 logger_py = logging.getLogger(__name__)
