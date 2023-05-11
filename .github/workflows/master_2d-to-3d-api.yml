@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: '2d-to-3d-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_342F08BB4C614021A37D2247577CA587 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_45ED79C58DBE421D9B100BFF672A2102 }}
