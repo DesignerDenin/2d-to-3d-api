@@ -10,7 +10,7 @@ torchvision
 torchaudio
 torch
 scipy
-sklearn
+scikit-learn
 rembg
 pillow
 trimesh
