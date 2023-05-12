@@ -4,3 +4,4 @@ out/
 /data/
 media/
 .history/
+.venv/
