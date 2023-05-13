@@ -6,7 +6,6 @@ import numpy as np
 import trimesh
 from im2mesh.utils import libmcubes
 from im2mesh.common import make_3d_grid
-from im2mesh.utils.libsimplify import simplify_mesh
 from im2mesh.utils.libmise import MISE
 import time
 from im2mesh.common import transform_pointcloud
@@ -237,7 +236,7 @@ class Generator3D(object):
         # TODO: normals are lost here
         if self.simplify_nfaces is not None:
             t0 = time.time()
-            mesh = simplify_mesh(mesh, self.simplify_nfaces, 5.)
+            mesh = mesh.simplify_quadric_decimation(face_count=self.simplify_nfaces, max_error=5.0)
             stats_dict['time (simplify)'] = time.time() - t0
 
         # Refine mesh
