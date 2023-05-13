@@ -32,12 +32,6 @@ jobs:
       
       - name: Update
         run: sudo apt-get update
-
-      - name: Install libstdc to remove error
-        run: sudo apt-get install libstdc++6
-
-      - name: Install build essentials
-        run: sudo apt-get install build-essential
       
       - name: Compile extension modules
         run: python scripts/setup.py build_ext --inplace
