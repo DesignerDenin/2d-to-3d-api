@@ -97,7 +97,7 @@ def Generate(args_config, no_cuda=False):
             'idx': idx,
             'class_name': category,
             'class_id': category_id,
-            'modelname': modelname,
+            'modelname': model_counter[category],
         }
         time_dicts.append(time_dict)
 
@@ -151,10 +151,10 @@ def Generate(args_config, no_cuda=False):
         model_counter[category] += 1
 
     # Create pandas dataframe and save
-    time_df = pd.DataFrame(time_dicts).replace('na', np.nan)
+    time_df = pd.DataFrame(time_dicts)
 
     print('shibu')
-    print(time_df['class_name'])
+    print(time_df['modelname'])
 
     time_df.set_index(['idx'], inplace=True)
     time_df.to_pickle(out_time_file)

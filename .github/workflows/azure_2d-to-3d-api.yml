@@ -37,7 +37,7 @@ jobs:
         run: sudo apt-get install build-essential
       
       - name: Compile extension modules
-        run: python setup.py build_ext --inplace
+        run: python scripts/setup.py build_ext --inplace
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
