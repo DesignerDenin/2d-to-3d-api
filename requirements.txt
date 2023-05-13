@@ -1,0 +1,17 @@
+imageio
+tensorboard
+pyyaml
+cython
+matplotlib
+pandas
+numpy
+tqdm
+torchvision
+torchaudio
+torch
+scipy
+rembg
+pillow
+trimesh
+flask
+flask_cors
