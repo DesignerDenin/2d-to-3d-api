@@ -33,6 +33,9 @@ jobs:
       - name: Update
         run: sudo apt-get update
 
+      - name: Install libstdc to remove error
+        run: sudo apt-get install libstdc++6
+
       - name: Install build essentials
         run: sudo apt-get install build-essential
       
