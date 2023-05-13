@@ -21,8 +21,7 @@ pykdtree = Extension(
         'im2mesh/utils/libkdtree/pykdtree/_kdtree_core.c'
     ],
     language='c',
-    extra_compile_args=['-std=c99', '-O3', '-fopenmp'],
-    extra_link_args=['-lgomp'],
+    extra_compile_args=['-std=c99', '-O3'],
     include_dirs=[numpy_include_dir]
 )
 
@@ -74,7 +73,7 @@ voxelize_module = Extension(
         'im2mesh/utils/libvoxelize/voxelize.pyx'
     ],
     language='c',
-    extra_compile_args=['-std=c99', '-O3', '-fopenmp'],
+    extra_compile_args=['-std=c99', '-O3'],
     libraries=['m'] if platform.system() == 'Linux' else []  # Unix-like specific
 )
 

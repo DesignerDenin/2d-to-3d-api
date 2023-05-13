@@ -4,7 +4,8 @@ import numpy as np
 import trimesh
 import pymesh
 # from scipy.spatial import cKDTree
-from sklearn.neighbors import KDTree
+from im2mesh.utils.libkdtree import KDTree
+from im2mesh.utils.libmesh import check_mesh_contains
 from im2mesh.common import compute_iou
 
 
@@ -62,7 +63,7 @@ class MeshEvaluator(object):
 
         if (len(mesh.vertices) != 0) and (len(mesh.faces) != 0) and \
            (points_iou is not None) and (occ_tgt is not None):
-            occ = mesh.contains(points_iou)
+            occ = check_mesh_contains(mesh, points_iou)
             out_dict['iou'] = compute_iou(occ, occ_tgt)
         else:
             out_dict['iou'] = 0.

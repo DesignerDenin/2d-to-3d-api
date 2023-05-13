@@ -151,7 +151,11 @@ def Generate(args_config, no_cuda=False):
         model_counter[category] += 1
 
     # Create pandas dataframe and save
-    time_df = pd.DataFrame(time_dicts)
+    time_df = pd.DataFrame(time_dicts).replace('na', np.nan)
+
+    print('shibu')
+    print(time_df['class_name'])
+
     time_df.set_index(['idx'], inplace=True)
     time_df.to_pickle(out_time_file)
 
