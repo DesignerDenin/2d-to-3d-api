@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import torch.nn as nn
-from im2mesh.common import (
+from im2mesh.utils.common import (
     get_logits_from_prob, get_proposal_points_in_unit_cube)
 
 

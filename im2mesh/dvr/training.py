@@ -1,13 +1,13 @@
 import os
 import torch
-from im2mesh.common import (
+from im2mesh.utils.common import (
     check_weights, get_tensor_values, transform_to_world,
     transform_to_camera_space, sample_patch_points, arange_pixels,
     make_3d_grid, compute_iou, get_occupancy_loss_points,
     get_freespace_loss_points
 )
 from collections import defaultdict
-from im2mesh import visualize as vis
+from im2mesh.utils import visualize as vis
 from tqdm import tqdm
 import logging
 from im2mesh import losses

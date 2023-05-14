@@ -2,8 +2,8 @@
 import logging
 import numpy as np
 import trimesh
-from im2mesh.utils.libmesh import check_mesh_contains
-from im2mesh.common import compute_iou
+from scipy.spatial import Delaunay
+from im2mesh.utils.common import compute_iou
 
 
 # Maximum values for bounding box [-0.5, 0.5]^3
@@ -60,12 +60,17 @@ class MeshEvaluator(object):
 
         if (len(mesh.vertices) != 0) and (len(mesh.faces) != 0) and \
            (points_iou is not None) and (occ_tgt is not None):
-            occ = check_mesh_contains(mesh, points_iou)
+            occ = self.check_mesh_contains(mesh, points_iou)
             out_dict['iou'] = compute_iou(occ, occ_tgt)
         else:
             out_dict['iou'] = 0.
 
         return out_dict
+
+    def check_mesh_contains(self, mesh, points):
+        tri = Delaunay(mesh.vertices)
+        contains = tri.find_simplex(points) >= 0
+        return contains
 
     def eval_pointcloud(self, pointcloud, pointcloud_tgt,
                         normals=None, normals_tgt=None,

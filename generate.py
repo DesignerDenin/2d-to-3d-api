@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 from im2mesh import config
 from im2mesh.checkpoints import CheckpointIO
-from im2mesh.common import transform_mesh
 from PIL import Image
 from scipy.spatial.transform import Rotation as R
 
