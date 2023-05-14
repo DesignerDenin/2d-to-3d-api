@@ -7,7 +7,6 @@ from im2mesh.utils.common import make_3d_grid
 from im2mesh.utils.libmise import MISE
 from im2mesh.utils.common import transform_pointcloud
 import numpy as np
-import pyvista as pv
 import trimesh
 import time
 
@@ -228,8 +227,6 @@ class Generator3D(object):
         if vertices.shape[0] == 0:
             return mesh
 
-        mesh = self.watertight(mesh)
-
         # TODO: normals are lost here
         t0 = time.time()
         mesh = mesh.simplify_quadric_decimation(face_count=4000)
@@ -396,16 +393,3 @@ class Generator3D(object):
 
         mesh.vertices = v.data.cpu().numpy()
         return mesh
-    
-    def watertight(self, mesh):
-        # Convert Trimesh to PyVista mesh
-        pvmesh = pv.wrap(mesh)
-
-        # Perform hole filling and mesh repair
-        filled_mesh = pvmesh.fill_holes(hole_size=10)
-
-        # Convert back to Trimesh object
-        vertices = np.copy(filled_mesh.points)
-        faces = np.copy(filled_mesh.faces.reshape(-1, 4)[:, 1:])
-        fixed_mesh = trimesh.Trimesh(vertices=vertices, faces=faces)
-        return fixed_mesh
