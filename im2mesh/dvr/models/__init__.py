@@ -4,7 +4,7 @@ from torch import distributions as dist
 from im2mesh.dvr.models import (
     decoder, depth_function
 )
-from im2mesh.common import (
+from im2mesh.utils.common import (
     get_mask, image_points_to_world, origin_to_world, normalize_tensor)
 
 

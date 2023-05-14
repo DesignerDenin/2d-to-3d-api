@@ -35,9 +35,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       
-      - name: Update
-        run: sudo apt-get update
-      
       - name: Compile extension modules
         run: python scripts/setup.py build_ext --inplace
         

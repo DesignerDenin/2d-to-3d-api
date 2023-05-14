@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 from PIL import Image
 import os
-from im2mesh.common import (
+from im2mesh.utils.common import (
     arange_pixels, transform_to_camera_space)
 
 

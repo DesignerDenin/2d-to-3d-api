@@ -2,14 +2,14 @@ import torch
 import torch.optim as optim
 from torch import autograd
 from torch.utils.data import TensorDataset, DataLoader
-import numpy as np
-import trimesh
-from im2mesh.utils import libmcubes
-from im2mesh.common import make_3d_grid
+from skimage import measure
+from im2mesh.utils.common import make_3d_grid
 from im2mesh.utils.libmise import MISE
+from im2mesh.utils.common import transform_pointcloud
+import numpy as np
+import pyvista as pv
+import trimesh
 import time
-from im2mesh.common import transform_pointcloud
-
 
 class Generator3D(object):
     '''  Generator class for DVRs.
@@ -140,7 +140,7 @@ class Generator3D(object):
         else:
             mesh_extractor = MISE(
                 self.resolution0, self.upsampling_steps, threshold)
-
+            
             points = mesh_extractor.query()
 
             while points.shape[0] != 0:
@@ -197,18 +197,13 @@ class Generator3D(object):
         # Some short hands
         n_x, n_y, n_z = occ_hat.shape
         box_size = 1 + self.padding
-        threshold = np.log(self.threshold) - np.log(1. - self.threshold)
-        # Make sure that mesh is watertight
+        offset = 0
+        threshold = np.log(self.threshold + offset) - np.log(1. - (self.threshold + offset))
+
         t0 = time.time()
-        occ_hat_padded = np.pad(
-            occ_hat, 1, 'constant', constant_values=-1e6)
-        vertices, triangles = libmcubes.marching_cubes(
-            occ_hat_padded, threshold)
+        vertices, triangles, _, _ = measure.marching_cubes(occ_hat, level=threshold)
+
         stats_dict['time (marching cubes)'] = time.time() - t0
-        # Strange behaviour in libmcubes: vertices are shifted by 0.5
-        vertices -= 0.5
-        # Undo padding
-        vertices -= 1
         # Normalize to bounding box
         vertices /= np.array([n_x-1, n_y-1, n_z-1])
         vertices = box_size * (vertices - 0.5)
@@ -233,17 +228,21 @@ class Generator3D(object):
         if vertices.shape[0] == 0:
             return mesh
 
+        mesh = self.watertight(mesh)
+
         # TODO: normals are lost here
-        if self.simplify_nfaces is not None:
-            t0 = time.time()
-            mesh = mesh.simplify_quadric_decimation(face_count=self.simplify_nfaces, max_error=5.0)
-            stats_dict['time (simplify)'] = time.time() - t0
+        t0 = time.time()
+        mesh = mesh.simplify_quadric_decimation(face_count=4000)
+        stats_dict['time (simplify)'] = time.time() - t0
 
         # Refine mesh
         if self.refinement_step > 0:
             t0 = time.time()
             self.refine_mesh(mesh, occ_hat, c)
             stats_dict['time (refine)'] = time.time() - t0
+
+        
+        mesh = trimesh.smoothing.filter_laplacian(mesh, iterations=2, lamb = 0.4)
 
         # Estimate Vertex Colors
         if self.with_color and not vertices.shape[0] == 0:
@@ -397,3 +396,16 @@ class Generator3D(object):
 
         mesh.vertices = v.data.cpu().numpy()
         return mesh
+    
+    def watertight(self, mesh):
+        # Convert Trimesh to PyVista mesh
+        pvmesh = pv.wrap(mesh)
+
+        # Perform hole filling and mesh repair
+        filled_mesh = pvmesh.fill_holes(hole_size=10)
+
+        # Convert back to Trimesh object
+        vertices = np.copy(filled_mesh.points)
+        faces = np.copy(filled_mesh.faces.reshape(-1, 4)[:, 1:])
+        fixed_mesh = trimesh.Trimesh(vertices=vertices, faces=faces)
+        return fixed_mesh

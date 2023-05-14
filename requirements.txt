@@ -10,8 +10,11 @@ torchvision
 torchaudio
 torch
 scipy
+scikit-image
 rembg
 pillow
+pyvista
 trimesh
 flask
 flask_cors
+open3d

@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 from im2mesh import config
 from im2mesh.checkpoints import CheckpointIO
-from im2mesh.common import transform_mesh
 from PIL import Image
 from scipy.spatial.transform import Rotation as R
 
@@ -152,9 +151,6 @@ def Generate(args_config, no_cuda=False):
 
     # Create pandas dataframe and save
     time_df = pd.DataFrame(time_dicts)
-
-    print('shibu')
-    print(time_df['modelname'])
 
     time_df.set_index(['idx'], inplace=True)
     time_df.to_pickle(out_time_file)

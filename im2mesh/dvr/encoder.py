@@ -1,6 +1,6 @@
 import torch.nn as nn
 from torchvision import models, transforms
-from im2mesh.common import normalize_imagenet
+from im2mesh.utils.common import normalize_imagenet
 import PIL.Image as Image
 
 class ConvEncoder(nn.Module):
