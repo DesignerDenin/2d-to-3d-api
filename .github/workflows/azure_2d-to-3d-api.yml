@@ -31,6 +31,11 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
+
+      - name: Update and install pyvista dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libx11-dev
       
       - name: Install dependencies
         run: pip install -r requirements.txt
