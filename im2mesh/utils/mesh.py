@@ -3,7 +3,6 @@ from itertools import combinations
 import numpy as np
 from im2mesh.utils import voxels
 
-
 class MultiGridExtractor(object):
     def __init__(self, resolution0, threshold):
         # Attributes

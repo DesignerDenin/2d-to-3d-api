@@ -2,9 +2,6 @@
 import logging
 import numpy as np
 import trimesh
-import pymesh
-# from scipy.spatial import cKDTree
-from im2mesh.utils.libkdtree import KDTree
 from im2mesh.utils.libmesh import check_mesh_contains
 from im2mesh.common import compute_iou
 
@@ -164,7 +161,8 @@ def distance_p2p(points_src, normals_src, points_tgt, normals_tgt):
         points_tgt (numpy array): target points
         normals_tgt (numpy array): target normals
     '''
-    kdtree = KDTree(points_tgt)
+    pointcloud = trimesh.points.PointCloud(points_tgt)
+    kdtree = pointcloud.kdtree
     dist, idx = kdtree.query(points_src)
 
     if normals_src is not None and normals_tgt is not None:

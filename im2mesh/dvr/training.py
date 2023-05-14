@@ -7,7 +7,7 @@ from im2mesh.common import (
     get_freespace_loss_points
 )
 from collections import defaultdict
-from im2mesh.utils import visualize as vis
+from im2mesh import visualize as vis
 from tqdm import tqdm
 import logging
 from im2mesh import losses

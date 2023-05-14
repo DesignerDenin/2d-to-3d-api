@@ -1,12 +1,10 @@
 import torch
-from im2mesh.utils.libkdtree import KDTree
 import numpy as np
 import logging
 from copy import deepcopy
-
+import trimesh
 
 logger_py = logging.getLogger(__name__)
-
 
 def rgb2gray(rgb):
     ''' rgb of size B x h x w x 3
@@ -620,7 +618,8 @@ def get_nearest_neighbors_indices_batch(points_src, points_tgt, k=1):
     distances = []
 
     for (p1, p2) in zip(points_src, points_tgt):
-        kdtree = KDTree(p2)
+        pointcloud = trimesh.points.PointCloud(p2)
+        kdtree = pointcloud.kdtree
         dist, idx = kdtree.query(p1, k=k)
         indices.append(idx)
         distances.append(dist)

@@ -153,9 +153,6 @@ def Generate(args_config, no_cuda=False):
     # Create pandas dataframe and save
     time_df = pd.DataFrame(time_dicts)
 
-    print('shibu')
-    print(time_df['modelname'])
-
     time_df.set_index(['idx'], inplace=True)
     time_df.to_pickle(out_time_file)
 
