@@ -5,9 +5,10 @@ brew install python@3.10
 
 &nbsp;
 
-2. Create Python 3.10 Virtual Env
+2. Create Python 3.10 Virtual Env and activate it
 ```
 python3.10 -m venv .venv
+source .venv/bin/activate #on mac
 ```
 
 &nbsp;
