@@ -47,8 +47,8 @@ def edit_image():
 @app.route("/generate", methods=['POST'])
 def generate():
     image_name = "image.png"
-    image_path = os.path.join(os.getcwd(), "others", image_name)
-    generation_path = os.path.join(os.getcwd(), "others/generation")
+    image_path = os.path.join(os.getcwd(), "output", image_name)
+    generation_path = os.path.join(os.getcwd(), "output/generation")
 
     if os.path.exists(generation_path):
         shutil.rmtree(generation_path)

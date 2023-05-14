@@ -4,7 +4,7 @@ from torch import autograd
 from torch.utils.data import TensorDataset, DataLoader
 from skimage import measure
 from im2mesh.common import make_3d_grid
-from im2mesh.dvr.mise import MISE
+from im2mesh.utils.libmise import MISE
 from im2mesh.common import transform_pointcloud
 import numpy as np
 import pyvista as pv

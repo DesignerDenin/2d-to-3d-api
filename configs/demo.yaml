@@ -2,9 +2,9 @@ model:
   lambda_depth: 10.
 data:
   dataset_name: images
-  path: others
+  path: output
 training:
-  out_dir:  others
+  out_dir:  output
   n_workers: 8
   n_training_points: 768
   model_selection_metric: loss_depth_eval

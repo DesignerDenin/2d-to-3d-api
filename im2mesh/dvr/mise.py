@@ -40,7 +40,7 @@ class MISE:
     def query(self):
         # Find all points with unknown value
         unknown_points = []
-        for p in self.grid_values:
+        for p in self.grid_points:
             if not p.known:
                 unknown_points.append(p.loc)
 
@@ -95,8 +95,8 @@ class MISE:
 
     def to_dense(self):
         # Create a dense grid using the bounding box of the points
-        min_coords = np.min(self.grid_values, axis=0)
-        max_coords = np.max(self.grid_values, axis=0)
+        min_coords = np.min(self.grid_points, axis=0)
+        max_coords = np.max(self.grid_points, axis=0)
         bb_min = np.floor(min_coords).astype(int)
         bb_max = np.ceil(max_coords).astype(int)
 
@@ -107,7 +107,7 @@ class MISE:
         dense_grid = np.zeros(shape, dtype=float)
 
         # Convert the grid points to dense grid indices
-        indices = self.grid_values - bb_min
+        indices = self.grid_points - bb_min
 
         # Fill the dense grid with the corresponding values
         dense_grid[tuple(indices.T)] = list(self.grid_values.values())
