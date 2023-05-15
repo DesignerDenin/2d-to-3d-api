@@ -34,8 +34,9 @@ jobs:
 
       - name: Update and install pyvista dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install libx11-dev
+          sudo apt update
+          sudo apt install libx11-dev
+          sudo apt install libgl1-mesa-glx
       
       - name: Install dependencies
         run: pip install -r requirements.txt
