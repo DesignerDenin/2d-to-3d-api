@@ -8,6 +8,7 @@ from im2mesh.utils.libmise import MISE
 from im2mesh.utils.common import transform_pointcloud
 import numpy as np
 import pyvista as pv
+import open3d as o3d
 import trimesh
 import time
 
@@ -232,7 +233,7 @@ class Generator3D(object):
 
         # TODO: normals are lost here
         t0 = time.time()
-        mesh = mesh.simplify_quadric_decimation(face_count=4000)
+        mesh = self.simplifymesh(mesh)
         stats_dict['time (simplify)'] = time.time() - t0
 
         # Refine mesh
@@ -409,3 +410,20 @@ class Generator3D(object):
         faces = np.copy(filled_mesh.faces.reshape(-1, 4)[:, 1:])
         fixed_mesh = trimesh.Trimesh(vertices=vertices, faces=faces)
         return fixed_mesh
+    
+    def simplifymesh(self, mesh):
+        geometry = o3d.geometry.TriangleMesh()
+        geometry.vertices = o3d.utility.Vector3dVector(mesh.vertices)
+        geometry.triangles = o3d.utility.Vector3iVector(mesh.faces)
+        geometry.compute_vertex_normals()
+
+        # Perform mesh simplification using Open3D
+        target_triangle_count = 4000
+        simplified_geometry = geometry.simplify_quadric_decimation(target_triangle_count)
+
+        # Convert simplified Open3D geometry to trimesh mesh
+        simplified_mesh = trimesh.Trimesh(vertices=simplified_geometry.vertices, faces=simplified_geometry.triangles)
+
+        return simplified_mesh
+
+
