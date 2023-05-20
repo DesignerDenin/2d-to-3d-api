@@ -1,16 +1,12 @@
 imageio
-tensorboard
-pyyaml
 cython
 matplotlib
 pandas
 numpy
 tqdm
 torchvision
-torchaudio
 torch
 scipy
-scikit-image
 rembg
 pillow
 trimesh
