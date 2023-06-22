@@ -1,3 +1,5 @@
+> The UI of the 2D to 3D application resides here: https://github.com/DesignerDenin/2d-to-3d-ui
+
 1. Install Python 3.10 (using brew here)
 ```
 brew install python@3.10
